@@ -24,7 +24,7 @@ CREATE TABLE device_sessions (
   organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
   device_name TEXT NOT NULL,
   device_os TEXT NOT NULL,
-  session_key TEXT UNIQUE NOT NULL DEFAULT encode(gen_random_bytes(32), 'hex'),
+  session_key TEXT UNIQUE NOT NULL DEFAULT encode(extensions.gen_random_bytes(32), 'hex'),
   is_active BOOLEAN NOT NULL DEFAULT true,
   last_seen_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()

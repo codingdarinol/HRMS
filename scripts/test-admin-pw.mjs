@@ -1,7 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
+import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from './_supabase-env.mjs';
+
 const s = createClient(
-  'https://zgemsjtztpwlhaltsvex.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpnZW1zanR6dHB3bGhhbHRzdmV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NDQ5MDcsImV4cCI6MjA4NzQyMDkwN30.sgFrO1VSiQ_MC9Cn0hgNfXacB1rZCgTZIpb8BLw4leU',
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY,
   { auth: { autoRefreshToken: false, persistSession: false } }
 );
 for (const pwd of ['admin123456', 'password123', 'Admin123!', 'admin123']) {

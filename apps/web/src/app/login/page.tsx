@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,7 +13,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const supabase = createClient();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -33,6 +31,7 @@ export default function LoginPage() {
 
     // Fetch role to redirect to the right dashboard
     const { data: { user } } = await supabase.auth.getUser();
+    let targetPath = '/employee/dashboard';
     if (user) {
       const { data: profile } = await supabase
         .from('profiles')
@@ -41,15 +40,13 @@ export default function LoginPage() {
         .maybeSingle();
 
       if (profile?.role === 'ADMIN') {
-        router.push('/admin/employees');
+        targetPath = '/admin/employees';
       } else if (profile?.role === 'HR') {
-        router.push('/hr/employees');
-      } else {
-        router.push('/employee/dashboard');
+        targetPath = '/hr/employees';
       }
-    } else {
-      router.push('/employee/dashboard');
     }
+
+    window.location.replace(targetPath);
   };
 
   return (

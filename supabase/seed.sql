@@ -1,5 +1,7 @@
 -- Seed data for HRMS development
 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 -- 1. Create organization
 INSERT INTO organizations (id, name, slug, timezone) VALUES
   ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Acme Corp', 'acme-corp', 'Asia/Kolkata');
@@ -72,7 +74,7 @@ INSERT INTO auth.users (
     '11111111-1111-1111-1111-111111111111',
     'authenticated', 'authenticated',
     'admin@acme.com',
-    crypt('password123', gen_salt('bf')),
+    extensions.crypt('password123', extensions.gen_salt('bf')),
     now(),
     '{"provider":"email","providers":["email"]}',
     '{"organization_id":"a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11","full_name":"Rajesh Kumar","employee_code":"EMP-001","role":"ADMIN"}',
@@ -84,7 +86,7 @@ INSERT INTO auth.users (
     '22222222-2222-2222-2222-222222222222',
     'authenticated', 'authenticated',
     'hr@acme.com',
-    crypt('password123', gen_salt('bf')),
+    extensions.crypt('password123', extensions.gen_salt('bf')),
     now(),
     '{"provider":"email","providers":["email"]}',
     '{"organization_id":"a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11","full_name":"Sneha Sharma","employee_code":"EMP-002","role":"HR"}',
@@ -96,7 +98,7 @@ INSERT INTO auth.users (
     '33333333-3333-3333-3333-333333333333',
     'authenticated', 'authenticated',
     'rahul@acme.com',
-    crypt('password123', gen_salt('bf')),
+    extensions.crypt('password123', extensions.gen_salt('bf')),
     now(),
     '{"provider":"email","providers":["email"]}',
     '{"organization_id":"a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11","full_name":"Rahul Patel","employee_code":"EMP-003","role":"EMPLOYEE"}',
@@ -108,7 +110,7 @@ INSERT INTO auth.users (
     '44444444-4444-4444-4444-444444444444',
     'authenticated', 'authenticated',
     'priya@acme.com',
-    crypt('password123', gen_salt('bf')),
+    extensions.crypt('password123', extensions.gen_salt('bf')),
     now(),
     '{"provider":"email","providers":["email"]}',
     '{"organization_id":"a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11","full_name":"Priya Nair","employee_code":"EMP-004","role":"EMPLOYEE"}',
@@ -415,9 +417,9 @@ INSERT INTO notifications (user_id, organization_id, type, title, message, is_re
 -- ============================================================
 
 INSERT INTO anonymous_feedback (organization_id, user_hash, category, content, moderation_status) VALUES
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', encode(sha256('user1-salt'), 'hex'), 'work-environment', 'The office AC temperature is always too cold. Can we adjust it to a more comfortable level?', 'PENDING'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', encode(sha256('user2-salt'), 'hex'), 'management', 'Team standup meetings are running too long. Can we keep them under 15 minutes?', 'APPROVED'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', encode(sha256('user3-salt'), 'hex'), 'general', 'Really appreciate the new WFH policy — it has improved work-life balance significantly!', 'APPROVED');
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', encode(extensions.digest('user1-salt', 'sha256'), 'hex'), 'work-environment', 'The office AC temperature is always too cold. Can we adjust it to a more comfortable level?', 'PENDING'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', encode(extensions.digest('user2-salt', 'sha256'), 'hex'), 'management', 'Team standup meetings are running too long. Can we keep them under 15 minutes?', 'APPROVED'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', encode(extensions.digest('user3-salt', 'sha256'), 'hex'), 'general', 'Really appreciate the new WFH policy — it has improved work-life balance significantly!', 'APPROVED');
 
 -- ============================================================
 -- Done! Test Credentials Summary:

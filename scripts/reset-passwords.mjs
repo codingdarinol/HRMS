@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
+import { SUPABASE_SECRET_KEY, SUPABASE_URL } from './_supabase-env.mjs';
 
-const SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpnZW1zanR6dHB3bGhhbHRzdmV4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTg0NDkwNywiZXhwIjoyMDg3NDIwOTA3fQ.vvT_zFLbomtc0y3IObnFPGjWhTBGEOKM1eZuTrEh9CU';
-const s = createClient('https://zgemsjtztpwlhaltsvex.supabase.co', SERVICE_KEY, {
+const s = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY, {
   auth: { autoRefreshToken: false, persistSession: false },
 });
 

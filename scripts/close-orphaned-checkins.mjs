@@ -8,17 +8,15 @@
  * Usage:  node scripts/close-orphaned-checkins.mjs
  */
 
-const SUPABASE_URL = 'https://zgemsjtztpwlhaltsvex.supabase.co';
-const SERVICE_ROLE_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpnZW1zanR6dHB3bGhhbHRzdmV4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTg0NDkwNywiZXhwIjoyMDg3NDIwOTA3fQ.vvT_zFLbomtc0y3IObnFPGjWhTBGEOKM1eZuTrEh9CU';
+import { SUPABASE_SECRET_KEY, SUPABASE_URL } from './_supabase-env.mjs';
 
 // Today in IST (Asia/Kolkata, UTC+5:30)
 const todayIST = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
 console.log(`Today IST: ${todayIST}`);
 
 const headers = {
-  apikey: SERVICE_ROLE_KEY,
-  Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
+  apikey: SUPABASE_SECRET_KEY,
+  Authorization: `Bearer ${SUPABASE_SECRET_KEY}`,
   'Content-Type': 'application/json',
   Prefer: 'return=representation',
 };

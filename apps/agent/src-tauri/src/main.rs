@@ -10,7 +10,8 @@ use tauri::{
     SystemTrayMenu, SystemTrayMenuItem,
 };
 
-const DEFAULT_API_BASE: &str = "https://zgemsjtztpwlhaltsvex.supabase.co/functions/v1";
+const DEFAULT_API_BASE: &str = "https://ejyptenkuaemprlraoxl.supabase.co/functions/v1";
+const DEFAULT_ANON_KEY: &str = "sb_publishable_-J3wOPfqMpLmN2yJLTpebg_q9UUievn";
 
 #[derive(Clone, serde::Serialize, serde::Deserialize, Debug)]
 pub struct AppState {
@@ -301,7 +302,8 @@ pub async fn refresh_auth_token(state: &Arc<Mutex<AppState>>) -> bool {
     // Supabase auth refresh endpoint
     let supabase_url = api_base
         .replace("/functions/v1", "");
-    let anon_key = std::env::var("HRMS_ANON_KEY").unwrap_or_default();
+    let anon_key =
+        std::env::var("HRMS_ANON_KEY").unwrap_or_else(|_| DEFAULT_ANON_KEY.to_string());
 
     let client = reqwest::Client::new();
     let res = client

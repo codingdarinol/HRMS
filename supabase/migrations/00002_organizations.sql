@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 -- Organizations table
 CREATE TABLE organizations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -5,7 +7,7 @@ CREATE TABLE organizations (
   slug TEXT UNIQUE NOT NULL,
   logo_url TEXT,
   timezone TEXT NOT NULL DEFAULT 'Asia/Kolkata',
-  org_salt TEXT NOT NULL DEFAULT encode(gen_random_bytes(32), 'hex'),
+  org_salt TEXT NOT NULL DEFAULT encode(extensions.gen_random_bytes(32), 'hex'),
   settings JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
